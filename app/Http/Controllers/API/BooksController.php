@@ -33,7 +33,7 @@ class BooksController extends Controller
 
         // Check if book is found
         if (!$book) {
-            return response()->json(['error' => 'ISBN should be 10 or 13 characters'], 404);
+            return response()->json(['error' => 'ISBN not found'], 404);
         }
 
         // Return book details
