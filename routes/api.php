@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\API\BooksController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,8 +15,3 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/books/{isbn}', [BooksController::class, 'show']);
-// Route::get('/books/{isbn}', function ($isbn) {
-//     dd($isbn);
-//     // If validation fails, Laravel will automatically return a JSON response with error messages
-//     return app()->call('App\Http\Controllers\API\BooksController@show', ['isbn' => $isbn]);
-// })->middleware('App\Http\Requests\ShowBookRequest');
