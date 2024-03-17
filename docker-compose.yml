@@ -1,0 +1,48 @@
+version: "3.7"
+services:
+  app:
+    build:
+      args:
+        user: bugzee
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: bookapi
+    container_name: bookapi-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+      - ./Fonts:/usr/local/share/fonts/
+    networks:
+      - bookapi
+
+  nginx:
+    image: nginx:alpine
+    container_name: bookapi-nginx
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d/
+      - ./docker-compose/nginx/ssl:/etc/nginx/ssl/
+    networks:
+      - bookapi
+
+  queue:
+      image: bookapi
+      container_name: bookapi-queue
+      restart: always
+      working_dir: /var/www/
+      command: php artisan queue:work
+      depends_on:
+          - app
+      volumes:
+          - ./:/var/www
+      networks:
+          - bookapi
+networks:
+  bookapi:
+    driver: bridge
