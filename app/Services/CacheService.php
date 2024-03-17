@@ -25,4 +25,9 @@ class CacheService
     {
         Cache::forget($key);
     }
+
+    public function has($key)
+    {
+        return Cache::has($key);
+    }
 }
